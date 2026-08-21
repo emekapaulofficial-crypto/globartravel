@@ -1,0 +1,27 @@
+name: Refresh Globar Opportunities
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check approved opportunity sources
+        run: node scripts/refresh-opportunities.mjs
+
+      - name: Commit source status
+        run: |
+          git config user.name 'globartravel-bot'
+          git config user.email 'actions@github.com'
+          git add data/opportunities.json
+          git diff --cached --quiet || git commit -m 'chore: refresh opportunity source status'
+          git push
