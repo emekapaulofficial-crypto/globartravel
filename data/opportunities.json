@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-08-21",
+  "items": [
+    {
+      "title": "Erasmus Mundus Joint Masters",
+      "category": "Fully Funded Scholarships",
+      "level": "Master's",
+      "country": "Europe",
+      "status": "OPEN-SOURCE",
+      "description": "Official European Commission catalogue of joint Master's programmes. Scholarships can cover participation costs and contribute to travel, visa and living expenses.",
+      "url": "https://erasmus-plus.ec.europa.eu/opportunities/individuals/students/erasmus-mundus-joint-masters",
+      "source": "European Commission / Erasmus+",
+      "verifiedAt": "2026-08-21"
+    },
+    {
+      "title": "DAAD Scholarships",
+      "category": "Scholarships",
+      "level": "Master's / PhD / Research",
+      "country": "Germany",
+      "status": "LIVE DIRECTORY",
+      "description": "Official DAAD scholarship database for study and research funding in Germany.",
+      "url": "https://www.daad.de/en/study-and-research-in-germany/scholarships/",
+      "source": "DAAD",
+      "verifiedAt": "2026-08-21"
+    },
+    {
+      "title": "Chevening Scholarships",
+      "category": "Fully Funded Scholarships",
+      "level": "Master's",
+      "country": "United Kingdom",
+      "status": "LIVE DIRECTORY",
+      "description": "Official UK Government scholarship information for eligible international applicants.",
+      "url": "https://www.chevening.org/",
+      "source": "Chevening",
+      "verifiedAt": "2026-08-21"
+    },
+    {
+      "title": "Mastersportal",
+      "category": "University Search",
+      "level": "Master's",
+      "country": "Worldwide / Europe",
+      "status": "LIVE DIRECTORY",
+      "description": "Search Master's programmes and compare study destinations and universities.",
+      "url": "https://www.mastersportal.com/",
+      "source": "Mastersportal",
+      "verifiedAt": "2026-08-21"
+    },
+    {
+      "title": "ScholarshipTab Fully Funded Search",
+      "category": "Scholarships",
+      "level": "Bachelor's / Master's / PhD",
+      "country": "Worldwide",
+      "status": "LIVE DIRECTORY",
+      "description": "Browse current scholarship listings and verify each opportunity with the original provider before applying.",
+      "url": "https://www.scholarshiptab.com/fully-funded",
+      "source": "ScholarshipTab",
+      "verifiedAt": "2026-08-21"
+    },
+    {
+      "title": "Alison Free Online Learning",
+      "category": "Free Online Courses",
+      "level": "All",
+      "country": "Online",
+      "status": "LIVE DIRECTORY",
+      "description": "Large catalogue of online learning. Course access and certificates can have different conditions or fees, so check the course page.",
+      "url": "https://alison.com/",
+      "source": "Alison",
+      "verifiedAt": "2026-08-21"
+    }
+  ]
+}

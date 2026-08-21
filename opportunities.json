@@ -1,0 +1,65 @@
+{
+  "updatedAt": "2026-08-21",
+  "items": [
+    {
+      "id": "erasmus-mundus-joint-masters",
+      "title": "Erasmus Mundus Joint Masters",
+      "category": "Fully Funded",
+      "level": "Masters",
+      "country": "Europe",
+      "tags": ["Scholarship", "Europe", "Masters"],
+      "description": "International joint Master's programmes with scholarships available on selected programmes.",
+      "source": "https://erasmus-plus.ec.europa.eu/opportunities/individuals/students/erasmus-mundus-joint-masters",
+      "verified": true,
+      "status": "OPEN_OR_PROGRAMME_DEPENDENT"
+    },
+    {
+      "id": "daad-scholarships",
+      "title": "DAAD Scholarship Database",
+      "category": "Scholarships",
+      "level": "Masters / PhD / Research",
+      "country": "Germany",
+      "tags": ["Scholarship", "Germany", "Research"],
+      "description": "Searchable DAAD funding opportunities for international applicants; eligibility and deadlines vary by programme.",
+      "source": "https://www.daad.de/en/studying-in-germany/scholarships/",
+      "verified": true,
+      "status": "LIVE_DATABASE"
+    },
+    {
+      "id": "chevening-nigeria",
+      "title": "Chevening Scholarships — Nigeria",
+      "category": "Fully Funded",
+      "level": "Masters",
+      "country": "United Kingdom",
+      "tags": ["Scholarship", "UK", "Masters", "Nigeria"],
+      "description": "UK government scholarship programme for eligible Nigerian applicants. Always verify the current cycle and requirements on the official page.",
+      "source": "https://www.chevening.org/scholarship/nigeria/",
+      "verified": true,
+      "status": "CHECK_CURRENT_CYCLE"
+    },
+    {
+      "id": "mastersportal",
+      "title": "Master's Programmes Worldwide",
+      "category": "University Search",
+      "level": "Masters",
+      "country": "Worldwide",
+      "tags": ["Masters", "Universities", "Europe"],
+      "description": "Search Master's programmes by destination, subject and study preferences.",
+      "source": "https://www.mastersportal.com/",
+      "verified": true,
+      "status": "LIVE_SEARCH"
+    },
+    {
+      "id": "alison-free-courses",
+      "title": "Free Online Courses — Alison",
+      "category": "Free Courses",
+      "level": "All",
+      "country": "Online",
+      "tags": ["Free", "Courses", "Online"],
+      "description": "Large catalogue of online learning opportunities. Certificate terms and fees can vary by course.",
+      "source": "https://alison.com/",
+      "verified": true,
+      "status": "LIVE_PLATFORM"
+    }
+  ]
+}
