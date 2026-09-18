@@ -24,7 +24,7 @@
 <div id="result" style="margin-top:18px"></div>
 <a class="back" href="index.html">← Back to Global Travel</a>
 </section>
-<section class="card"><h2>Privacy & safety</h2><div class="notice"><strong>Important:</strong> This tracker shows limited case information only. Do not enter passport numbers, passwords, bank PINs, card details or other sensitive login information.</div></section>
+<section id="docsCard" class="card" style="display:none"><h2>Document checklist</h2><p>See the documents Global Travel has requested and their current status.</p><div id="docs"></div></section><section class="card"><h2>Privacy & safety</h2><div class="notice"><strong>Important:</strong> This tracker shows limited case information only. Do not enter passport numbers, passwords, bank PINs, card details or other sensitive login information.</div></section>
 </div></main>
 <footer>© 2026 Global Travel Agency</footer>
 <script>
@@ -52,6 +52,9 @@ document.getElementById('track').onsubmit=async function(e){
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const ures=await fetch(SUPABASE_URL+'/rest/v1/rpc/gta_track_updates',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_reference_code:ref})});
   const updates=ures.ok?await ures.json():[];
+  const dres=await fetch(SUPABASE_URL+'/rest/v1/gta_checklist_items?application_id=eq.'+encodeURIComponent(a.id)+'&select=item_name,status,note,updated_at&order=updated_at.desc',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});
+  const docs=dres.ok?await dres.json():[];
+  if(docs.length){document.getElementById('docsCard').style.display='block';const dl={pending:'Pending',received:'Received',needs_correction:'Needs correction',not_required:'Not required'};document.getElementById('docs').innerHTML=docs.map(d=>'<div class="status" style="margin:8px 0"><b>'+esc(d.item_name)+'</b><span><strong>'+esc(dl[d.status]||d.status)+'</strong>'+(d.note?' — '+esc(d.note):'')+'</span></div>').join('');}else{document.getElementById('docsCard').style.display='none';}
   const timeline=updates.length?updates.map(u=>'<div style="padding:14px 0;border-bottom:1px solid #e5ebf2"><strong>'+new Date(u.created_at).toLocaleString()+'</strong><p style="margin:5px 0 0;white-space:pre-wrap">'+esc(u.message)+'</p></div>').join(''):'<p class="muted">No client updates have been posted yet.</p>';
   result.innerHTML='<div class="status"><b>Reference</b><span>'+esc(a.reference_code)+'</span><b>Service</b><span>'+esc(a.service_type)+'</span><b>Destination</b><span>'+esc(a.destination||'Not specified')+'</span><b>Status</b><span><strong>'+esc(labels[a.status]||a.status)+'</strong></span><b>Appointment</b><span>'+esc(appointment)+'</span><b>Last updated</b><span>'+esc(updated)+'</span></div><div style="margin-top:20px"><h2>Updates from Global Travel</h2><div style="margin-top:8px">'+timeline+'</div></div>';
  }catch(err){result.innerHTML='<div class="notice">The tracking service is temporarily unavailable. Please contact Global Travel on WhatsApp for assistance.</div>';}
