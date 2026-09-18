@@ -30,6 +30,19 @@ async function showDashboard(){document.getElementById('login').classList.add('h
 async function load(){const r=await api('/rest/v1/gta_applications?select=id,reference_code,service_type,destination,status,appointment_at,updated_at,gta_clients(full_name)&order=updated_at.desc');if(!r.ok){alert('You are not authorized for the admin dashboard.');return}const rows=await r.json();total.textContent=rows.length;awaiting.textContent=rows.filter(x=>x.status==='awaiting_documents').length;review.textContent=rows.filter(x=>x.status==='documents_review').length;appointments.textContent=rows.filter(x=>x.status==='appointment' || x.appointment_at).length;apps.innerHTML=rows.map(x=>'<tr><td><b>'+x.reference_code+'</b></td><td>'+((x.gta_clients&&x.gta_clients.full_name)||'')+'</td><td>'+x.service_type+'<br><span class="muted">'+(x.destination||'')+'</span></td><td><span class="pill">'+x.status+'</span></td><td>'+new Date(x.updated_at).toLocaleString()+'</td><td><button class="btn" onclick="selectApp(\''+x.id+'\',\''+x.reference_code+'\')">Manage</button></td></tr>').join('');}
 window.selectApp=(id,ref)=>{selectedId=id;selectedRef=ref;selected.textContent='Managing '+ref;manager.classList.remove('hidden');};
 async function saveApp(){if(!selectedId)return;const statusV=status.value, ap=appointment.value?new Date(appointment.value).toISOString():null;const r=await api('/rest/v1/gta_applications?id=eq.'+selectedId,{method:'PATCH',body:JSON.stringify({status:statusV,appointment_at:ap,updated_at:new Date().toISOString()})});if(!r.ok){saveMsg.innerHTML='<div class="notice">Could not save application.</div>';return}const msg=updateText.value.trim();if(msg){const u=await api('/rest/v1/gta_updates',{method:'POST',body:JSON.stringify({application_id:selectedId,message:msg,visible_to_client:true})});if(!u.ok){saveMsg.innerHTML='<div class="notice">Status saved, but the client update could not be saved.</div>';return}}saveMsg.innerHTML='<div class="notice ok">Saved successfully for '+selectedRef+'.</div>';updateText.value='';await load();}
+createForm.onsubmit=async function(e){
+ e.preventDefault();
+ const out=document.getElementById('createMsg'); out.innerHTML='<div class="notice">Creating application...</div>';
+ const payload={p_full_name:cname.value.trim(),p_email:cemail.value.trim()||null,p_phone:cphone.value.trim(),p_country_of_residence:country.value.trim()||null,p_service_type:service.value,p_destination:destination.value.trim()||null,p_purpose:purpose.value.trim()||null,p_travel_date:travelDate.value||null,p_client_message:clientMessage.value.trim()||null};
+ try{
+  const r=await api('/rest/v1/rpc/gta_create_application',{method:'POST',body:JSON.stringify(payload)});
+  const d=await r.json();
+  if(!r.ok) throw new Error(d.message||d.error||'Could not create application');
+  const ref=Array.isArray(d)?(d[0]&&d[0].reference_code):d.reference_code;
+  out.innerHTML='<div class="notice ok"><strong>Application created.</strong> Reference: <b>'+ref+'</b>. Save this reference for the client.</div>';
+  createForm.reset(); await load();
+ }catch(err){out.innerHTML='<div class="notice">Could not create application: '+(err.message||'Unknown error')+'</div>';}
+};
 loginForm.onsubmit=signIn;refresh.onclick=load;logout.onclick=()=>{sessionStorage.clear();location.reload()};save.onclick=saveApp;
 token=sessionStorage.getItem('gta_token')||'';if(token)showDashboard();
 </script></body></html>
