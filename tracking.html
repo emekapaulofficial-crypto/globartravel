@@ -50,9 +50,9 @@ document.getElementById('track').onsubmit=async function(e){
   const a=rows[0];
   const updated=a.updated_at?new Date(a.updated_at).toLocaleString(): 'Not available';
   const appointment=a.appointment_at?new Date(a.appointment_at).toLocaleString():'Not scheduled';
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const appointmentCard=document.getElementById('appointmentCard');
   if(a.appointment_at){appointmentCard.style.display='block';document.getElementById('appointmentBox').innerHTML='<b>Date & time</b><span>'+esc(appointment)+'</span><b>Status</b><span>Scheduled</span>';}else{appointmentCard.style.display='none';}
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const ures=await fetch(SUPABASE_URL+'/rest/v1/rpc/gta_track_updates',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_reference_code:ref})});
   const updates=ures.ok?await ures.json():[];
   const dres=await fetch(SUPABASE_URL+'/rest/v1/rpc/gta_track_checklist',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_reference_code:ref})});
