@@ -1,30 +1,35 @@
 <!doctype html>
-<html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Global Travel | Admin Dashboard</title>
 <style>
-body{font-family:Inter,Arial,sans-serif;background:#f4f8fc;color:#132238;margin:0}.wrap{width:min(1100px,92%);margin:auto}
-header{background:#06254a;color:#fff;padding:22px 0}h1{margin:0}.muted{color:#63758a}
-.card{background:#fff;border:1px solid #dbe5ef;border-radius:14px;padding:22px;margin:24px 0;box-shadow:0 8px 25px #092b5510}
-table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #e5ebf2}th{color:#06254a}
-.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#eef7ff;color:#0868d7;font-weight:700;font-size:12px}
-.btn{display:inline-block;background:#0868d7;color:#fff;border:0;padding:11px 16px;border-radius:8px;font-weight:700;cursor:pointer}
-.notice{background:#fff7df;border:1px solid #f0d37a;padding:15px;border-radius:10px}
-a{color:inherit}
+body{font-family:Inter,Arial,sans-serif;background:#f4f8fc;color:#132238;margin:0}.wrap{width:min(1100px,92%);margin:auto}header{background:#06254a;color:#fff;padding:22px 0}h1{margin:0}.card{background:#fff;border:1px solid #dbe5ef;border-radius:14px;padding:22px;margin:24px 0;box-shadow:0 8px 25px #092b5510}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{padding:18px;border:1px solid #e0e7ef;border-radius:12px;background:#fafcfe}.metric strong{font-size:28px;color:#06254a;display:block}.muted{color:#63758a}input,select,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d5dfe9;border-radius:8px;margin:6px 0 12px;font:inherit}.btn{display:inline-block;background:#0868d7;color:#fff;border:0;padding:11px 16px;border-radius:8px;font-weight:700;cursor:pointer}.btn.secondary{background:#63758a}.btn.danger{background:#a52626}.notice{background:#fff7df;border:1px solid #f0d37a;padding:15px;border-radius:10px}.ok{background:#edf9f1;border-color:#b9e2c5}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid #e5ebf2;vertical-align:top}th{color:#06254a}.pill{display:inline-block;padding:5px 9px;border-radius:20px;background:#eef7ff;color:#0868d7;font-weight:700;font-size:12px}.hidden{display:none}a{color:#0868d7}@media(max-width:800px){.grid,.row{grid-template-columns:1fr 1fr}}@media(max-width:550px){.grid,.row{grid-template-columns:1fr}}
 </style></head>
 <body>
-<header><div class="wrap"><h1>Global Travel Agency — Admin</h1><p>Client application management</p></div></header>
+<header><div class="wrap"><h1>Global Travel Agency — Admin</h1><p>Secure client application management</p></div></header>
 <main class="wrap">
-<div class="notice"><strong>Secure system setup:</strong> This dashboard is currently a protected interface shell. Client records will be connected only after the secure database and access rules are activated.</div>
-<div class="card"><h2>Application overview</h2><p class="muted">These counters will become live after database connection.</p>
-<table><tr><th>Metric</th><th>Current</th></tr><tr><td>Total applications</td><td>—</td></tr><tr><td>Awaiting documents</td><td>—</td></tr><tr><td>Under review</td><td>—</td></tr><tr><td>Appointments</td><td>—</td></tr></table></div>
-<div class="card"><h2>What you will manage here</h2>
-<table><tr><th>Feature</th><th>Purpose</th></tr>
-<tr><td>Application reference</td><td>Create and manage a unique GTA reference number.</td></tr>
-<tr><td>Status</td><td>Update received, document review, appointment, submitted, decision and completed stages.</td></tr>
-<tr><td>Client updates</td><td>Add a short message the client can see in their tracking portal.</td></tr>
-<tr><td>Document checklist</td><td>Mark requested documents as pending, received or needing correction.</td></tr>
-<tr><td>Appointment</td><td>Record appointment date/time and instructions.</td></tr>
-</table></div>
-<div class="card"><h2>Next step</h2><p>Connect this dashboard and <a href="tracking.html">client tracking portal</a> to a secure database with row-level access controls.</p><a class="btn" href="index.html">Back to website</a></div>
-</main></body></html>
+<section id="login" class="card"><h2>Admin sign in</h2><p class="muted">Sign in with the Global Travel admin account.</p>
+<form id="loginForm"><label>Email</label><input id="email" type="email" required placeholder="Your admin email"><label>Password</label><input id="password" type="password" required><button class="btn">Sign in</button></form><div id="loginMsg"></div></section>
+<section id="dashboard" class="hidden">
+<div class="card"><button class="btn secondary" id="refresh">Refresh</button> <button class="btn danger" id="logout">Sign out</button> <span id="who" class="muted"></span></div>
+<div class="grid">
+<div class="metric"><span>Total</span><strong id="total">0</strong></div><div class="metric"><span>Awaiting documents</span><strong id="awaiting">0</strong></div><div class="metric"><span>Under review</span><strong id="review">0</strong></div><div class="metric"><span>Appointments</span><strong id="appointments">0</strong></div>
+</div>
+<div class="card"><h2>Create application</h2><form id="createForm">
+<div class="row"><div><label>Client name</label><input id="cname" required></div><div><label>Client phone</label><input id="cphone" required></div><div><label>Email</label><input id="cemail" type="email"></div><div><label>Country of residence</label><input id="country"></div><div><label>Service</label><select id="service"><option>Tourist Visa</option><option>Student Visa</option><option>Work Visa</option><option>Business Visa</option><option>Family & Visit Visa</option><option>Conference & Event Visa</option><option>Medical Visa</option><option>Study Abroad</option><option>Flight / Hotel</option><option>Other</option></select></div><div><label>Destination</label><input id="destination"></div><div><label>Purpose</label><input id="purpose"></div><div><label>Travel date</label><input id="travelDate" type="date"></div></div>
+<label>Initial note</label><textarea id="clientMessage"></textarea><button class="btn">Create & generate reference</button></form><div id="createMsg"></div></div>
+<div class="card"><h2>Applications</h2><div style="overflow:auto"><table><thead><tr><th>Reference</th><th>Client</th><th>Service</th><th>Status</th><th>Updated</th><th>Manage</th></tr></thead><tbody id="apps"></tbody></table></div></div>
+<div class="card"><h2>Manage selected application</h2><p id="selected" class="muted">Select an application above.</p><div id="manager" class="hidden"><label>Status</label><select id="status"><option value="received">Application received</option><option value="documents_review">Documents under review</option><option value="awaiting_documents">Awaiting documents</option><option value="appointment">Appointment scheduled</option><option value="submitted">Application submitted</option><option value="decision_received">Decision received</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select><label>Appointment date/time</label><input id="appointment" type="datetime-local"><label>Client update</label><textarea id="updateText" placeholder="Message the client can see"></textarea><button class="btn" id="save">Save update</button><div id="saveMsg"></div></div></div>
+</section>
+</main>
+<script>
+const URL='https://eavamfsbasjvngeqsyua.supabase.co',KEY='sb_publishable_E40QKzlb3dtIoawvmxPHfA_07t2XIxu';
+let token='',selectedId='',selectedRef='';
+const api=(path,opt={})=>fetch(URL+path,{...opt,headers:{apikey:KEY,Authorization:'Bearer '+token,'Content-Type':'application/json',...(opt.headers||{})}});
+async function signIn(e){e.preventDefault();const msg=document.getElementById('loginMsg');msg.innerHTML='';const r=await fetch(URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({email:email.value,password:password.value})});const d=await r.json();if(!r.ok){msg.innerHTML='<div class="notice">'+(d.error_description||'Sign in failed')+'</div>';return}token=d.access_token;sessionStorage.setItem('gta_token',token);sessionStorage.setItem('gta_email',email.value);showDashboard();}
+async function showDashboard(){document.getElementById('login').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');who.textContent='Signed in as '+(sessionStorage.getItem('gta_email')||'admin');await load();}
+async function load(){const r=await api('/rest/v1/gta_applications?select=id,reference_code,service_type,destination,status,appointment_at,updated_at,gta_clients(full_name)&order=updated_at.desc');if(!r.ok){alert('You are not authorized for the admin dashboard.');return}const rows=await r.json();total.textContent=rows.length;awaiting.textContent=rows.filter(x=>x.status==='awaiting_documents').length;review.textContent=rows.filter(x=>x.status==='documents_review').length;appointments.textContent=rows.filter(x=>x.status==='appointment' || x.appointment_at).length;apps.innerHTML=rows.map(x=>'<tr><td><b>'+x.reference_code+'</b></td><td>'+((x.gta_clients&&x.gta_clients.full_name)||'')+'</td><td>'+x.service_type+'<br><span class="muted">'+(x.destination||'')+'</span></td><td><span class="pill">'+x.status+'</span></td><td>'+new Date(x.updated_at).toLocaleString()+'</td><td><button class="btn" onclick="selectApp(\''+x.id+'\',\''+x.reference_code+'\')">Manage</button></td></tr>').join('');}
+window.selectApp=(id,ref)=>{selectedId=id;selectedRef=ref;selected.textContent='Managing '+ref;manager.classList.remove('hidden');};
+async function saveApp(){if(!selectedId)return;const statusV=status.value, ap=appointment.value?new Date(appointment.value).toISOString():null;const r=await api('/rest/v1/gta_applications?id=eq.'+selectedId,{method:'PATCH',body:JSON.stringify({status:statusV,appointment_at:ap,updated_at:new Date().toISOString()})});if(!r.ok){saveMsg.innerHTML='<div class="notice">Could not save application.</div>';return}const msg=updateText.value.trim();if(msg){const u=await api('/rest/v1/gta_updates',{method:'POST',body:JSON.stringify({application_id:selectedId,message:msg,visible_to_client:true})});if(!u.ok){saveMsg.innerHTML='<div class="notice">Status saved, but the client update could not be saved.</div>';return}}saveMsg.innerHTML='<div class="notice ok">Saved successfully for '+selectedRef+'.</div>';updateText.value='';await load();}
+loginForm.onsubmit=signIn;refresh.onclick=load;logout.onclick=()=>{sessionStorage.clear();location.reload()};save.onclick=saveApp;
+token=sessionStorage.getItem('gta_token')||'';if(token)showDashboard();
+</script></body></html>
