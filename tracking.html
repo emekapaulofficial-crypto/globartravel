@@ -1,12 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Application Tracking | Global Travel</title>
-<meta name="description" content="Global Travel client application tracking and document checklist.">
+<meta name="description" content="Global Travel client application tracking.">
 <style>
-:root{--n:#06254a;--b:#0868d7;--g:#f5b51b;--l:#f4f8fc;--m:#63758a}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;color:#132238;background:var(--l)}.wrap{width:min(900px,92%);margin:auto}.top{background:var(--n);color:#fff;padding:12px 0}.top .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}header{background:#fff;padding:28px 0;border-bottom:1px solid #e2e9f1}.logo{font-size:22px;font-weight:800;color:var(--n)}.logo b{color:var(--g)}main{padding:55px 0}.card{background:#fff;border:1px solid #dce5ef;border-radius:18px;padding:28px;box-shadow:0 10px 30px #092b5510;margin-bottom:20px}h1{font-size:42px;color:var(--n);margin:8px 0 12px}h2{color:var(--n)}p{color:var(--m);line-height:1.7}.ey{color:var(--b);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}label{display:block;font-weight:700;font-size:13px;color:var(--n);margin-bottom:6px}input{width:100%;padding:14px;border:1px solid #d5dfe9;border-radius:9px;font:inherit;margin-bottom:12px}.btn{display:inline-block;background:var(--b);color:#fff;padding:13px 18px;border-radius:9px;font-weight:800;border:0;cursor:pointer}.btn.gold{background:var(--g);color:#111}.notice{background:#eef7ff;border:1px solid #cfe5fb;padding:16px;border-radius:12px;color:#173b5e;font-size:14px}.steps{display:grid;gap:12px}.step{padding:15px;border:1px solid #e0e7ef;border-radius:12px;background:#fafcfe}.step strong{color:var(--n)}footer{text-align:center;background:#031b35;color:#dbe7f3;padding:28px 0}a{color:inherit;text-decoration:none}.back{display:inline-block;margin-top:12px;color:var(--b);font-weight:700}
+:root{--n:#06254a;--b:#0868d7;--g:#f5b51b;--l:#f4f8fc;--m:#63758a}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;color:#132238;background:var(--l)}.wrap{width:min(900px,92%);margin:auto}.top{background:var(--n);color:#fff;padding:12px 0}.top .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}header{background:#fff;padding:28px 0;border-bottom:1px solid #e2e9f1}.logo{font-size:22px;font-weight:800;color:var(--n)}.logo b{color:var(--g)}main{padding:55px 0}.card{background:#fff;border:1px solid #dce5ef;border-radius:18px;padding:28px;box-shadow:0 10px 30px #092b5510;margin-bottom:20px}h1{font-size:42px;color:var(--n);margin:8px 0 12px}h2{color:var(--n)}p{color:var(--m);line-height:1.7}.ey{color:var(--b);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}label{display:block;font-weight:700;font-size:13px;color:var(--n);margin-bottom:6px}input{width:100%;padding:14px;border:1px solid #d5dfe9;border-radius:9px;font:inherit;margin-bottom:12px}.btn{display:inline-block;background:var(--b);color:#fff;padding:13px 18px;border-radius:9px;font-weight:800;border:0;cursor:pointer}.notice{background:#eef7ff;border:1px solid #cfe5fb;padding:16px;border-radius:12px;color:#173b5e;font-size:14px}.status{display:grid;grid-template-columns:140px 1fr;gap:8px;padding:18px;background:#fafcfe;border:1px solid #e0e7ef;border-radius:12px}.status b{color:var(--n)}footer{text-align:center;background:#031b35;color:#dbe7f3;padding:28px 0}a{color:inherit;text-decoration:none}.back{display:inline-block;margin-top:12px;color:var(--b);font-weight:700}@media(max-width:550px){.status{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -16,36 +15,43 @@
 <section class="card">
 <div class="ey">Client portal</div>
 <h1>Track your application</h1>
-<p>Enter the reference number provided by Global Travel. This page is being prepared for secure online case tracking. Until your client account is activated, use WhatsApp for the latest status.</p>
+<p>Enter the reference number provided by Global Travel to view the latest case status.</p>
 <form id="track">
 <label for="ref">Application reference</label>
-<input id="ref" required placeholder="Example: GTA-2026-0001" autocomplete="off">
-<button class="btn" type="submit">Check Status</button>
+<input id="ref" required placeholder="Example: GTA-2026-0001" autocomplete="off" pattern="GTA-[0-9]{4}-[0-9]{4}">
+<button class="btn" id="check" type="submit">Check Status</button>
 </form>
 <div id="result" style="margin-top:18px"></div>
 <a class="back" href="index.html">← Back to Global Travel</a>
 </section>
-<section class="card">
-<h2>What your client portal will show</h2>
-<div class="steps">
-<div class="step"><strong>Application status</strong><br>Received, reviewing, documents needed, ready to submit, submitted, appointment, decision or completed.</div>
-<div class="step"><strong>Document checklist</strong><br>See which requested documents are complete, missing or need correction.</div>
-<div class="step"><strong>Appointments</strong><br>View appointment dates and important preparation notes when applicable.</div>
-<div class="step"><strong>Updates</strong><br>Receive case notes and important actions from your assigned Global Travel representative.</div>
-</div>
-</section>
-<section class="card">
-<h2>Privacy & safety</h2>
-<div class="notice"><strong>Important:</strong> Do not enter passport numbers, passwords, bank PINs, card details or other sensitive login information here. The final portal will use authenticated access and protected database/storage rules before sensitive documents are enabled.</div>
-</section>
+<section class="card"><h2>Privacy & safety</h2><div class="notice"><strong>Important:</strong> This tracker shows limited case information only. Do not enter passport numbers, passwords, bank PINs, card details or other sensitive login information.</div></section>
 </div></main>
 <footer>© 2026 Global Travel Agency</footer>
 <script>
-document.getElementById('track').onsubmit=function(e){
+const SUPABASE_URL='https://eavamfsbasjvngeqsyua.supabase.co';
+const SUPABASE_KEY='sb_publishable_E40QKzlb3dtIoawvmxPHfA_07t2XIxu';
+const labels={received:'Application received',documents_review:'Documents under review',awaiting_documents:'Awaiting documents',appointment:'Appointment scheduled',submitted:'Application submitted',decision_received:'Decision received',completed:'Completed',cancelled:'Cancelled'};
+document.getElementById('track').onsubmit=async function(e){
  e.preventDefault();
- const ref=document.getElementById('ref').value.trim();
- const msg='Hello Global Travel, I want to check my application status. My reference number is '+ref+'.';
- document.getElementById('result').innerHTML='<div class="notice">Online status lookup will be connected after the secure client database is activated. For now, <a style="color:#0868d7;font-weight:800" href="https://wa.me/2348066966747?text='+encodeURIComponent(msg)+'">send this reference on WhatsApp</a> to receive the current update.</div>';
+ const ref=document.getElementById('ref').value.trim().toUpperCase();
+ const result=document.getElementById('result');
+ const button=document.getElementById('check');
+ button.disabled=true; button.textContent='Checking...'; result.innerHTML='';
+ try{
+  const response=await fetch(SUPABASE_URL+'/rest/v1/rpc/gta_track_application',{
+   method:'POST',
+   headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+   body:JSON.stringify({p_reference_code:ref})
+  });
+  if(!response.ok) throw new Error('lookup failed');
+  const rows=await response.json();
+  if(!rows.length){result.innerHTML='<div class="notice">We could not find that reference number. Please check it and try again.</div>';return;}
+  const a=rows[0];
+  const updated=a.updated_at?new Date(a.updated_at).toLocaleString(): 'Not available';
+  const appointment=a.appointment_at?new Date(a.appointment_at).toLocaleString():'Not scheduled';
+  result.innerHTML='<div class="status"><b>Reference</b><span>'+a.reference_code+'</span><b>Service</b><span>'+a.service_type+'</span><b>Destination</b><span>'+ (a.destination||'Not specified') +'</span><b>Status</b><span><strong>'+ (labels[a.status]||a.status) +'</strong></span><b>Appointment</b><span>'+appointment+'</span><b>Last updated</b><span>'+updated+'</span></div>';
+ }catch(err){result.innerHTML='<div class="notice">The tracking service is temporarily unavailable. Please contact Global Travel on WhatsApp for assistance.</div>';}
+ finally{button.disabled=false;button.textContent='Check Status';}
 };
 </script>
 </body>
