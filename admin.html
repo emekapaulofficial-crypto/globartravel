@@ -86,6 +86,6 @@ createForm.onsubmit=async function(e){
  }catch(err){out.innerHTML='<div class="notice">Could not create application: '+(err.message||'Unknown error')+'</div>';}
 };
 whatsappBtn.onclick=async()=>{if(!selectedId)return;const r=await api('/rest/v1/gta_applications?id=eq.'+selectedId+'&select=reference_code,gta_clients(phone,full_name)');if(!r.ok)return;const a=(await r.json())[0],p=a&&a.gta_clients;if(!p||!p.phone){saveMsg.innerHTML='<div class="notice">No client phone number is available.</div>';return}const digits=String(p.phone).replace(/[^0-9]/g,'');const text='Hello '+(p.full_name||'')+', this is Global Travel Agency regarding application '+a.reference_code+'. Please contact us if you need any assistance.';window.open('https://wa.me/'+digits+'?text='+encodeURIComponent(text),'_blank');};
-loginForm.onsubmit=signIn;refresh.onclick=load;logout.onclick=()=>{sessionStorage.clear();location.reload()};save.onclick=saveApp;
+loginForm.onsubmit=signIn;refresh.onclick=load;appSearch.oninput=renderApplications;appFilter.onchange=renderApplications;logout.onclick=()=>{sessionStorage.clear();location.reload()};save.onclick=saveApp;
 token=sessionStorage.getItem('gta_token')||'';if(token)showDashboard();
 </script></body></html>
