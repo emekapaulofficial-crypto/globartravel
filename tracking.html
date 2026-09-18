@@ -45,6 +45,13 @@ h1{font-size:clamp(34px,6vw,52px);line-height:1.08}.btn{background:#0876e8;box-s
 <button class="btn" id="check" type="submit">Check Status</button>
 </form>
 <div id="result" style="margin-top:18px"></div>
+<div id="portalSections" style="display:none">
+<div class="summary" id="summary"></div>
+<div class="clientgrid" style="margin-top:20px">
+<div class="card" style="margin:0"><div class="ey">What happens next</div><h2 id="nextTitle">Your next step</h2><p id="nextText" class="muted">We will update your portal as your application moves forward.</p></div>
+<div class="card" style="margin:0"><div class="ey">Need help?</div><h2>Talk to us</h2><p class="muted">If anything is unclear, contact Global Travel directly on WhatsApp.</p><a class="btn" href="https://wa.me/2348066966747">Open WhatsApp</a></div>
+</div>
+</div>
 <a class="back" href="index.html">← Back to Global Travel</a>
 </section>
 <section id="uploadCard" class="card"><div class="ey">Secure documents</div><h2>Upload requested documents</h2><p>Use the reference number and secure upload token given after your application was submitted. Accepted files: PDF, JPG, PNG or WEBP, up to 10 MB each.</p><label for="uploadToken">Secure upload token</label><input id="uploadToken" autocomplete="off" placeholder="Paste your secure upload token"><label for="clientFile">Choose document</label><input id="clientFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"><button class="btn" id="uploadBtn" type="button">Upload Document</button><div id="uploadMsg" style="margin-top:12px"></div></section>
@@ -84,6 +91,21 @@ document.getElementById('track').onsubmit=async function(e){
   const timeline=updates.length?updates.map(u=>'<div style="padding:14px 0;border-bottom:1px solid #e5ebf2"><strong>'+new Date(u.created_at).toLocaleString()+'</strong><p style="margin:5px 0 0;white-space:pre-wrap">'+esc(u.message)+'</p></div>').join(''):'<p class="muted">No client updates have been posted yet.</p>';
   const order=['received','documents_review','awaiting_documents','appointment','submitted','decision_received','completed'];
   const currentIndex=order.indexOf(a.status);
+  const nextMap={
+   received:['Initial review','We will review the information you submitted and confirm the next requirements.'],
+   documents_review:['Document review','We are reviewing the documents connected to your application.'],
+   awaiting_documents:['Send requested documents','Check your checklist and upload any document marked as pending or needing correction.'],
+   appointment:['Prepare for your appointment','Check the appointment details below and keep your required documents ready.'],
+   submitted:['Wait for the decision','Your application has been submitted. The relevant authority makes the final decision.'],
+   decision_received:['Review your decision','A decision has been received. Contact us if you need help understanding the next administrative step.'],
+   completed:['Application completed','Your current application journey has been marked completed.'],
+   cancelled:['Contact Global Travel','This application is cancelled. Contact us if you need clarification or wish to discuss a new application.']
+  };
+  const next=nextMap[a.status]||['Next step','We will update your portal as your application moves forward.'];
+  document.getElementById('portalSections').style.display='block';
+  document.getElementById('nextTitle').textContent=next[0];
+  document.getElementById('nextText').textContent=next[1];
+  document.getElementById('summary').innerHTML='<div class="summarybox"><small>Current status</small><strong>'+esc(labels[a.status]||a.status)+'</strong></div><div class="summarybox"><small>Destination</small><strong>'+esc(a.destination||'Not specified')+'</strong></div><div class="summarybox"><small>Last updated</small><strong>'+esc(updated)+'</strong></div>';
   const progressLabels=['Received','Review','Documents','Appointment','Submitted','Decision','Completed'];
   const progress=order.map((s,i)=>'<div class="pstep '+(i<currentIndex?'done ':'')+(i===currentIndex?'current':'')+'"><i>'+(i<currentIndex?'✓':i+1)+'</i><span>'+progressLabels[i]+'</span></div>').join('');
   result.innerHTML='<div class="card" style="margin-top:18px;padding:20px;background:#f8fbff"><div class="ey">Application progress</div><div class="progress">'+progress+'</div></div><div class="status"><b>Reference</b><span>'+esc(a.reference_code)+'</span><b>Service</b><span>'+esc(a.service_type)+'</span><b>Destination</b><span>'+esc(a.destination||'Not specified')+'</span><b>Status</b><span><strong>'+esc(labels[a.status]||a.status)+'</strong></span><b>Appointment</b><span>'+esc(appointment)+'</span><b>Last updated</b><span>'+esc(updated)+'</span></div><div style="margin-top:20px"><h2>Updates from Global Travel</h2><div style="margin-top:8px">'+timeline+'</div></div>';
