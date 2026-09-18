@@ -29,8 +29,29 @@ async function signIn(e){e.preventDefault();const msg=document.getElementById('l
 async function showDashboard(){document.getElementById('login').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');who.textContent='Signed in as '+(sessionStorage.getItem('gta_email')||'admin');await load();}
 async function load(){const r=await api('/rest/v1/gta_applications?select=id,reference_code,service_type,destination,status,appointment_at,updated_at,gta_clients(full_name)&order=updated_at.desc');if(!r.ok){alert('You are not authorized for the admin dashboard.');return}const rows=await r.json();total.textContent=rows.length;awaiting.textContent=rows.filter(x=>x.status==='awaiting_documents').length;review.textContent=rows.filter(x=>x.status==='documents_review').length;appointments.textContent=rows.filter(x=>x.status==='appointment' || x.appointment_at).length;apps.innerHTML=rows.map(x=>'<tr><td><b>'+x.reference_code+'</b></td><td>'+((x.gta_clients&&x.gta_clients.full_name)||'')+'</td><td>'+x.service_type+'<br><span class="muted">'+(x.destination||'')+'</span></td><td><span class="pill">'+x.status+'</span></td><td>'+new Date(x.updated_at).toLocaleString()+'</td><td><button class="btn" onclick="selectApp(\''+x.id+'\',\''+x.reference_code+'\')">Manage</button></td></tr>').join('');}
 window.selectApp=async(id,ref)=>{selectedId=id;selectedRef=ref;selected.textContent='Managing '+ref;manager.classList.remove('hidden');checklistApp.textContent='Managing documents for '+ref;checklistBox.classList.remove('hidden');await loadChecklist();await loadSelected();await loadClientFiles();await loadHistory();};
-async function loadClientFiles(){const r=await api('/rest/v1/gta_client_documents?application_id=eq.'+selectedId+'&select=id,file_name,storage_path,mime_type,file_size,created_at&order=created_at.desc');if(!r.ok)return;const rows=await r.json();filesHint.textContent='Uploaded documents for '+selectedRef;clientFiles.innerHTML=rows.length?rows.map(x=>'<div style="border:1px solid #e0e7ef;border-radius:10px;padding:12px;margin:8px 0"><strong>'+escapeHtml(x.file_name)+'</strong><br><span class="muted">'+escapeHtml(x.mime_type||'file')+' · '+Math.round((x.file_size||0)/1024)+' KB · '+new Date(x.created_at).toLocaleString()+'</span><br><button class="btn secondary openClientFile" data-id="'+escapeAttr(x.id)+'" style="margin-top:9px">Open securely</button></div>').join(''):'<p class="muted">No client documents uploaded yet.</p>';
-document.querySelectorAll('.openClientFile').forEach(b=>b.onclick=()=>openClientFile(b.dataset.id));}
+async function loadClientFiles(){
+ const r=await api('/rest/v1/gta_client_documents?application_id=eq.'+selectedId+'&select=id,file_name,storage_path,mime_type,file_size,created_at&order=created_at.desc');if(!r.ok)return;
+ const rows=await r.json();
+ const cr=await api('/rest/v1/gta_checklist_items?application_id=eq.'+selectedId+'&select=id,item_name,status&order=updated_at.desc');const checklist=cr.ok?await cr.json():[];
+ filesHint.textContent='Uploaded documents for '+selectedRef;
+ const options='<option value="">Select checklist item</option>'+checklist.map(x=>'<option value="'+escapeAttr(x.id)+'">'+escapeHtml(x.item_name)+' ('+escapeHtml(x.status)+')</option>').join('');
+ clientFiles.innerHTML=rows.length?rows.map(x=>'<div style="border:1px solid #e0e7ef;border-radius:12px;padding:14px;margin:9px 0"><strong>'+escapeHtml(x.file_name)+'</strong><br><span class="muted">'+escapeHtml(x.mime_type||'file')+' · '+Math.round((x.file_size||0)/1024)+' KB · '+new Date(x.created_at).toLocaleString()+'</span><div style="display:grid;grid-template-columns:minmax(180px,1fr) auto auto;gap:8px;margin-top:10px"><select class="uploadedChecklist" data-id="'+escapeAttr(x.id)+'">'+options+'</select><button class="btn secondary approveFile" data-id="'+escapeAttr(x.id)+'">Approve</button><button class="btn secondary correctFile" data-id="'+escapeAttr(x.id)+'">Needs correction</button></div><button class="btn secondary openClientFile" data-id="'+escapeAttr(x.id)+'" style="margin-top:9px">Open securely</button></div>').join(''):'<p class="muted">No client documents uploaded yet.</p>';
+ document.querySelectorAll('.openClientFile').forEach(b=>b.onclick=()=>openClientFile(b.dataset.id));
+ document.querySelectorAll('.approveFile').forEach(b=>b.onclick=()=>reviewUploadedFile(b.dataset.id,'received'));
+ document.querySelectorAll('.correctFile').forEach(b=>b.onclick=()=>reviewUploadedFile(b.dataset.id,'needs_correction'));
+}
+async function reviewUploadedFile(documentId,statusValue){
+ const select=document.querySelector('.uploadedChecklist[data-id="'+CSS.escape(documentId)+'"]');
+ const checklistId=select&&select.value;
+ if(!checklistId){alert('Select the checklist item this uploaded document belongs to first.');return;}
+ const fileName=document.querySelector('.uploadedChecklist[data-id="'+CSS.escape(documentId)+'"]')?.closest('div[style*="border"]')?.querySelector('strong')?.textContent||'uploaded document';
+ const r=await api('/rest/v1/gta_checklist_items?id=eq.'+encodeURIComponent(checklistId),{method:'PATCH',body:JSON.stringify({status:statusValue,updated_at:new Date().toISOString(),note:statusValue==='received'?'Uploaded document reviewed and accepted.':'Uploaded document needs correction or replacement.'})});
+ if(!r.ok){alert('Could not update the checklist.');return;}
+ const message=statusValue==='received'?('Document reviewed and accepted: '+fileName):('Document needs correction: '+fileName+'. Please review the checklist for details.');
+ await api('/rest/v1/gta_updates',{method:'POST',body:JSON.stringify({application_id:selectedId,message,visible_to_client:true})});
+ await loadChecklist();await loadClientFiles();await loadHistory();
+ alert(statusValue==='received'?'Document approved and checklist updated.':'Document marked as needing correction and checklist updated.');
+}
 async function openClientFile(id){
  const b=document.querySelector('.openClientFile[data-id="'+CSS.escape(id)+'"]');
  if(b){b.disabled=true;b.textContent='Opening...';}
