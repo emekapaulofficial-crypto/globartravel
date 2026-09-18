@@ -8,19 +8,34 @@
 :root{--n:#06254a;--b:#0868d7;--g:#f5b51b;--l:#f4f8fc;--m:#63758a}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;color:#132238;background:var(--l)}.wrap{width:min(900px,92%);margin:auto}.top{background:var(--n);color:#fff;padding:12px 0}.top .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}header{background:#fff;padding:28px 0;border-bottom:1px solid #e2e9f1}.logo{font-size:22px;font-weight:800;color:var(--n)}.logo b{color:var(--g)}main{padding:55px 0}.card{background:#fff;border:1px solid #dce5ef;border-radius:18px;padding:28px;box-shadow:0 10px 30px #092b5510;margin-bottom:20px}h1{font-size:42px;color:var(--n);margin:8px 0 12px}h2{color:var(--n)}p{color:var(--m);line-height:1.7}.ey{color:var(--b);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}label{display:block;font-weight:700;font-size:13px;color:var(--n);margin-bottom:6px}input{width:100%;padding:14px;border:1px solid #d5dfe9;border-radius:9px;font:inherit;margin-bottom:12px}.btn{display:inline-block;background:var(--b);color:#fff;padding:13px 18px;border-radius:9px;font-weight:800;border:0;cursor:pointer}.notice{background:#eef7ff;border:1px solid #cfe5fb;padding:16px;border-radius:12px;color:#173b5e;font-size:14px}.status{display:grid;grid-template-columns:140px 1fr;gap:8px;padding:18px;background:#fafcfe;border:1px solid #e0e7ef;border-radius:12px}.status b{color:var(--n)}footer{text-align:center;background:#031b35;color:#dbe7f3;padding:28px 0}a{color:inherit;text-decoration:none}.back{display:inline-block;margin-top:12px;color:var(--b);font-weight:700}@media(max-width:550px){.status{grid-template-columns:1fr}}
 </style><style>
 body{background:linear-gradient(180deg,#f4f8fc 0,#eef4fa 55%,#f8fbff 100%);color:#10243e}
+.portalhero{padding:18px 0 6px}.portalhero .ey{margin-bottom:4px}.portalhero h1{margin-bottom:8px}
+.portal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.portal-actions a{padding:10px 14px;border-radius:10px;background:#eef6ff;color:#075cae;font-weight:800;font-size:12px}
+.progress{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:20px}.pstep{position:relative;text-align:center;color:#7890a7;font-size:10px;font-weight:800}.pstep i{display:grid;place-items:center;width:32px;height:32px;margin:0 auto 6px;border-radius:50%;background:#e8eef5;color:#70849a;font-style:normal}.pstep.done i{background:#0a76df;color:#fff}.pstep.current i{background:#f5b51b;color:#10243e;box-shadow:0 0 0 5px #fff,0 0 0 7px #f5b51b}.pstep.done,.pstep.current{color:#123b68}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.summarybox{padding:16px;border:1px solid #e0e8f1;border-radius:14px;background:#fbfdff}.summarybox small{display:block;color:#6b7d90;font-size:11px;margin-bottom:4px}.summarybox strong{color:#06254a}
+.clientgrid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.muted{color:#708197}.mini{font-size:12px;color:#708197}
+@media(max-width:700px){.progress{grid-template-columns:repeat(4,1fr);gap:12px}.pstep:nth-child(5),.pstep:nth-child(6),.pstep:nth-child(7){margin-top:3px}.summary{grid-template-columns:1fr}.clientgrid{grid-template-columns:1fr}}
+
 .top{background:linear-gradient(90deg,#041d3a,#0a4d91)}
 header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);box-shadow:0 5px 20px rgba(6,37,74,.06)}
 main{padding:34px 0 70px}.card{border-radius:22px;border:1px solid #e1e9f2;box-shadow:0 16px 40px rgba(6,37,74,.08);padding:26px}
 h1{font-size:clamp(34px,6vw,52px);line-height:1.08}.btn{background:#0876e8;box-shadow:0 8px 18px rgba(8,118,232,.18)}input{min-height:50px}.status{background:#fbfdff;border-radius:14px}.notice{border-radius:14px}
 .portalnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.portalnav a{padding:9px 13px;border-radius:999px;background:#eef6ff;color:#075cae;font-weight:800;font-size:12px}
-@media(max-width:550px){.top .wrap{justify-content:center;text-align:center}.top .wrap span{width:100%}header{padding:18px 0}.portalnav a{flex:1;text-align:center}.card{padding:20px;border-radius:18px}main{padding:20px 0 50px}h1{font-size:36px}.status{grid-template-columns:1fr;gap:4px}.status b{margin-top:6px}.status span{padding-bottom:5px}.back{padding:10px 0}.btn{width:100%}}
+@media(max-width:550px){body{padding-bottom:70px}.mobilebar{position:fixed;display:grid;grid-template-columns:repeat(4,1fr);left:0;right:0;bottom:0;height:64px;background:rgba(255,255,255,.97);border-top:1px solid #dfe7ef;z-index:20;box-shadow:0 -8px 25px rgba(6,37,74,.1)}.mobilebar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:800;color:#53657a}.mobilebar a b{font-size:17px;line-height:1}.mobilebar a:first-child{color:var(--b)}.top .wrap{justify-content:center;text-align:center}.top .wrap span{width:100%}header{padding:18px 0}.portalnav a{flex:1;text-align:center}.card{padding:20px;border-radius:18px}main{padding:20px 0 50px}h1{font-size:36px}.status{grid-template-columns:1fr;gap:4px}.status b{margin-top:6px}.status span{padding-bottom:5px}.back{padding:10px 0}.btn{width:100%}}
 </style>
 </head>
 <body>
 <div class="top"><div class="wrap"><span>✈️ Global Travel Agency</span><span>WhatsApp +234 806 696 6747 · pigwe714@gmail.com</span></div></div>
 <header><div class="wrap"><a class="logo" href="index.html">GLOBAl <b>TRAVEL</b></a><div class="portalnav"><a href="index.html">Home</a><a href="index.html#contact">Apply</a><a href="https://wa.me/2348066966747">WhatsApp</a></div></div></header>
 <main><div class="wrap">
+<section class="portalhero">
+<div class="ey">Global Travel client portal</div>
+<h1>Track your journey with clarity.</h1>
+<p>Use your application reference to see progress, appointments, requested documents and messages from our team.</p>
+<div class="portal-actions"><a href="index.html">← Home</a><a href="index.html#contact">Start another application</a><a href="https://wa.me/2348066966747">WhatsApp support</a></div>
+</section>
 <section class="card">
+
 <div class="ey">Client portal</div>
 <h1>Track your application</h1>
 <p>Enter the reference number provided by Global Travel to view the latest case status.</p>
@@ -32,10 +47,10 @@ h1{font-size:clamp(34px,6vw,52px);line-height:1.08}.btn{background:#0876e8;box-s
 <div id="result" style="margin-top:18px"></div>
 <a class="back" href="index.html">← Back to Global Travel</a>
 </section>
-<section id="uploadCard" class="card"><h2>Secure document upload</h2><p>Use the reference number and secure upload token given after your application was submitted. Accepted files: PDF, JPG, PNG or WEBP, up to 10 MB each.</p><label for="uploadToken">Secure upload token</label><input id="uploadToken" autocomplete="off" placeholder="Paste your secure upload token"><label for="clientFile">Choose document</label><input id="clientFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"><button class="btn" id="uploadBtn" type="button">Upload Document</button><div id="uploadMsg" style="margin-top:12px"></div></section>
-<section id="appointmentCard" class="card" style="display:none"><h2>Appointment</h2><div id="appointmentBox" class="status"></div></section><section id="docsCard" class="card" style="display:none"><h2>Document checklist</h2><p>See the documents Global Travel has requested and their current status.</p><div id="docs"></div></section><section class="card"><h2>Privacy & safety</h2><div class="notice"><strong>Important:</strong> This tracker shows limited case information only. Do not enter passport numbers, passwords, bank PINs, card details or other sensitive login information.</div></section>
+<section id="uploadCard" class="card"><div class="ey">Secure documents</div><h2>Upload requested documents</h2><p>Use the reference number and secure upload token given after your application was submitted. Accepted files: PDF, JPG, PNG or WEBP, up to 10 MB each.</p><label for="uploadToken">Secure upload token</label><input id="uploadToken" autocomplete="off" placeholder="Paste your secure upload token"><label for="clientFile">Choose document</label><input id="clientFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"><button class="btn" id="uploadBtn" type="button">Upload Document</button><div id="uploadMsg" style="margin-top:12px"></div></section>
+<section id="appointmentCard" class="card" style="display:none"><div class="ey">Next milestone</div><h2>Appointment</h2><div id="appointmentBox" class="status"></div></section><section id="docsCard" class="card" style="display:none"><div class="ey">Your checklist</div><h2>Document checklist</h2><p>See the documents Global Travel has requested and their current status.</p><div id="docs"></div></section><section class="card"><div class="ey">Client safety</div><h2>Privacy & safety</h2><div class="notice"><strong>Important:</strong> This tracker shows limited case information only. Do not enter passport numbers, passwords, bank PINs, card details or other sensitive login information.</div></section>
 </div></main>
-<footer>© 2026 Global Travel Agency</footer>
+<footer>© 2026 Global Travel Agency · Visa guidance · Travel · Study Abroad</footer><div class="mobilebar"><a href="index.html"><b>⌂</b>Home</a><a href="#track"><b>🔎</b>Track</a><a href="#uploadCard"><b>📄</b>Documents</a><a href="https://wa.me/2348066966747"><b>💬</b>WhatsApp</a></div>
 <script>
 const SUPABASE_URL='https://eavamfsbasjvngeqsyua.supabase.co';
 const SUPABASE_KEY='sb_publishable_E40QKzlb3dtIoawvmxPHfA_07t2XIxu';
@@ -67,7 +82,11 @@ document.getElementById('track').onsubmit=async function(e){
   const docs=dres.ok?await dres.json():[];
   if(docs.length){document.getElementById('docsCard').style.display='block';const dl={pending:'Pending',received:'Received',needs_correction:'Needs correction',not_required:'Not required'};document.getElementById('docs').innerHTML=docs.map(d=>'<div class="status" style="margin:8px 0"><b>'+esc(d.item_name)+'</b><span><strong>'+esc(dl[d.status]||d.status)+'</strong>'+(d.note?' — '+esc(d.note):'')+'</span></div>').join('');}else{document.getElementById('docsCard').style.display='none';}
   const timeline=updates.length?updates.map(u=>'<div style="padding:14px 0;border-bottom:1px solid #e5ebf2"><strong>'+new Date(u.created_at).toLocaleString()+'</strong><p style="margin:5px 0 0;white-space:pre-wrap">'+esc(u.message)+'</p></div>').join(''):'<p class="muted">No client updates have been posted yet.</p>';
-  result.innerHTML='<div class="status"><b>Reference</b><span>'+esc(a.reference_code)+'</span><b>Service</b><span>'+esc(a.service_type)+'</span><b>Destination</b><span>'+esc(a.destination||'Not specified')+'</span><b>Status</b><span><strong>'+esc(labels[a.status]||a.status)+'</strong></span><b>Appointment</b><span>'+esc(appointment)+'</span><b>Last updated</b><span>'+esc(updated)+'</span></div><div style="margin-top:20px"><h2>Updates from Global Travel</h2><div style="margin-top:8px">'+timeline+'</div></div>';
+  const order=['received','documents_review','awaiting_documents','appointment','submitted','decision_received','completed'];
+  const currentIndex=order.indexOf(a.status);
+  const progressLabels=['Received','Review','Documents','Appointment','Submitted','Decision','Completed'];
+  const progress=order.map((s,i)=>'<div class="pstep '+(i<currentIndex?'done ':'')+(i===currentIndex?'current':'')+'"><i>'+(i<currentIndex?'✓':i+1)+'</i><span>'+progressLabels[i]+'</span></div>').join('');
+  result.innerHTML='<div class="card" style="margin-top:18px;padding:20px;background:#f8fbff"><div class="ey">Application progress</div><div class="progress">'+progress+'</div></div><div class="status"><b>Reference</b><span>'+esc(a.reference_code)+'</span><b>Service</b><span>'+esc(a.service_type)+'</span><b>Destination</b><span>'+esc(a.destination||'Not specified')+'</span><b>Status</b><span><strong>'+esc(labels[a.status]||a.status)+'</strong></span><b>Appointment</b><span>'+esc(appointment)+'</span><b>Last updated</b><span>'+esc(updated)+'</span></div><div style="margin-top:20px"><h2>Updates from Global Travel</h2><div style="margin-top:8px">'+timeline+'</div></div>';
  }catch(err){result.innerHTML='<div class="notice">The tracking service is temporarily unavailable. Please contact Global Travel on WhatsApp for assistance.</div>';}
  finally{button.disabled=false;button.textContent='Check Status';}
 };
