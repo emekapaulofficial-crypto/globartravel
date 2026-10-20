@@ -6,22 +6,29 @@
 <section class="section"><div class="wrap"><div class="cta"><div><h2>Want us to build a package for you?</h2><p class="intro">Send your destination, dates, travellers and purpose. We can discuss available options and provide a quote.</p></div><a class="btn" href="https://wa.me/2348066966747?text=Hello%20Global%20Travel%2C%20I%20want%20to%20plan%20a%20trip.">Chat on WhatsApp</a></div></div></section>
 </main><div id="articleModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modalBox"><button class="modalClose" id="modalClose">Close</button><span class="tag" id="modalCategory"></span><h2 id="modalTitle"></h2><p class="intro" id="modalExcerpt"></p><div id="modalContent" style="white-space:pre-wrap"></div></div></div><footer>© 2026 Global Travel Agency · Visa guidance · Study Abroad · Travel & Packages<br><small>Travel packages and availability are subject to confirmation. Visa decisions are made by the relevant authorities.</small></footer><script>
 const GTA_URL='https://eavamfsbasjvngeqsyua.supabase.co',GTA_KEY='sb_publishable_E40QKzlb3dtIoawvmxPHfA_07t2XIxu';
-const gtaFetch=(path)=>fetch(GTA_URL+path,{headers:{apikey:GTA_KEY,Authorization:'Bearer '+GTA_KEY}});
+const gtaFetch=(path)=>fetch(GTA_URL+path,{headers:{apikey:GTA_KEY}});
+const safeImg=u=>{u=String(u||'').trim();return /^https?:\/\//i.test(u)?encodeURI(u).replace(/'/g,'%27').replace(/\(/g,'%28').replace(/\)/g,'%29'):''};
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-function articleCard(x){return '<article class="card">'+(x.image_url?'<div class="pic" style="background-image:url(\''+esc(x.image_url)+'\')"></div>':'')+'<div class="body"><span class="tag">'+esc(x.category).toUpperCase()+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.excerpt||x.content||'')+'</p><a class="btn" href="index.html#assessment">Check options</a> <button class="btn readBtn readArticle" data-id="'+x.id+'" type="button">Read article</button></div></article>'}
-function packageCard(x){const msg='Hello Global Travel, I want the '+x.title+' package for '+(x.destination||'my destination')+'.';return '<article class="card">'+(x.image_url?'<div class="pic" style="background-image:url(\''+esc(x.image_url)+'\')"></div>':'')+'<div class="body"><span class="tag">'+esc(x.category).toUpperCase()+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.description||'')+'</p><div class="price">'+esc(x.price_label||'Request a quote')+'</div>'+(x.duration?'<div class="note">Duration: '+esc(x.duration)+'</div>':'')+'<a class="btn" href="package-request.html?package='+encodeURIComponent(x.id)+'">Request package</a></div></article>'}
+function articleCard(x){return '<article class="card">'+(safeImg(x.image_url)?'<div class="pic" style="background-image:url(&quot;'+esc(safeImg(x.image_url))+'&quot;)"></div>':'')+'<div class="body"><span class="tag">'+esc(x.category).toUpperCase()+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.excerpt||x.content||'')+'</p><a class="btn" href="index.html#assessment">Check options</a> <button class="btn readBtn readArticle" data-id="'+x.id+'" type="button">Read article</button></div></article>'}
+function packageCard(x){const msg='Hello Global Travel, I want the '+x.title+' package for '+(x.destination||'my destination')+'.';return '<article class="card">'+(safeImg(x.image_url)?'<div class="pic" style="background-image:url(&quot;'+esc(safeImg(x.image_url))+'&quot;)"></div>':'')+'<div class="body"><span class="tag">'+esc(x.category).toUpperCase()+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.description||'')+'</p><div class="price">'+esc(x.price_label||'Request a quote')+'</div>'+(x.duration?'<div class="note">Duration: '+esc(x.duration)+'</div>':'')+'<a class="btn" href="package-request.html?package='+encodeURIComponent(x.id)+'">Request package</a></div></article>'}
+async function getRows(path){const r=await gtaFetch(path);if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
 async function loadPublicContent(){
- try{
-  const [br,pr]=await Promise.all([gtaFetch('/rest/v1/gta_blog_posts?select=id,title,category,excerpt,content,image_url,featured&published=eq.true&order=featured.desc,updated_at.desc'),gtaFetch('/rest/v1/gta_travel_packages?select=id,title,category,destination,description,image_url,price_label,duration,featured&active=eq.true&order=featured.desc,updated_at.desc')]);
-  if(!br.ok||!pr.ok)throw new Error('content unavailable');
-  const blogs=await br.json(),packages=await pr.json();
-  const study=blogs.filter(x=>x.category==='study'||x.category==='opportunities'||x.category==='visa'),guides=blogs.filter(x=>!study.includes(x));
+ const [bres,pres]=await Promise.allSettled([getRows('/rest/v1/gta_blog_posts?select=id,title,category,excerpt,content,image_url,featured&published=eq.true&order=featured.desc,updated_at.desc'),getRows('/rest/v1/gta_travel_packages?select=id,title,category,destination,description,image_url,price_label,duration,featured&active=eq.true&order=featured.desc,updated_at.desc')]);
+ if(bres.status==='fulfilled'){
+  const blogs=bres.value;
+  const study=blogs.filter(x=>['study','opportunities','visa'].includes(x.category)),guides=blogs.filter(x=>!study.includes(x));
   blogGrid.innerHTML=study.length?study.map(articleCard).join(''):'<p class="muted">New study and opportunity articles will appear here soon.</p>';
-  guideGrid.innerHTML=guides.length?guides.map(articleCard).join(''):'<p class="muted">New travel guides will appear here soon.</p>';document.querySelectorAll('.readArticle').forEach(b=>b.onclick=()=>{const x=blogs.find(v=>v.id===b.dataset.id);if(!x)return;modalCategory.textContent=x.category.toUpperCase();modalTitle.textContent=x.title;modalExcerpt.textContent=x.excerpt||'';modalContent.textContent=x.content||x.excerpt||'';articleModal.classList.add('show')});
-  packageGrid.innerHTML=packages.length?packages.map(packageCard).join(''):'<p class="muted">New packages will appear here soon.</p>';
- }catch(e){
+  guideGrid.innerHTML=guides.length?guides.map(articleCard).join(''):'<p class="muted">New travel guides will appear here soon.</p>';
+  document.querySelectorAll('.readArticle').forEach(b=>b.onclick=()=>{const x=blogs.find(v=>String(v.id)===b.dataset.id);if(!x)return;modalCategory.textContent=String(x.category||'').toUpperCase();modalTitle.textContent=x.title;modalExcerpt.textContent=x.excerpt||'';modalContent.textContent=x.content||x.excerpt||'';articleModal.classList.add('show')});
+ }else{
+  console.error('Blog load failed',bres.reason);
   blogGrid.innerHTML='<article class="card"><div class="body"><span class="tag">STUDY GUIDE</span><h3>Planning your study-abroad journey</h3><p>Compare your course, school, budget, admission timeline and visa requirements before making travel plans.</p><a class="btn" href="index.html#study">Study support</a></div></article>';
   guideGrid.innerHTML='<article class="card"><div class="body"><span class="tag">VISA</span><h3>What to prepare before a visa application</h3><p>Start with the official requirements for your destination and organise accurate, consistent supporting documents.</p><a class="btn" href="index.html#assessment">Check options</a></div></article>';
+ }
+ if(pres.status==='fulfilled'){
+  packageGrid.innerHTML=pres.value.length?pres.value.map(packageCard).join(''):'<p class="muted">New packages will appear here soon.</p>';
+ }else{
+  console.error('Packages load failed',pres.reason);
   packageGrid.innerHTML='<article class="card"><div class="body"><span class="tag">CUSTOM TRIP</span><h3>Build Your Own Trip</h3><p>Tell us your destination, dates, number of travellers and preferred travel style.</p><div class="price">Custom quote</div><a class="btn" href="https://wa.me/2348066966747">Plan my trip</a></div></article>';
  }
 }
